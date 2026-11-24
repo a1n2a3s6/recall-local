@@ -1,0 +1,317 @@
+<Window x:Class="RecallLocal.Views.TimelineWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="RecallLocal — Time-Machine"
+        Width="1180"
+        Height="740"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip"
+        MinWidth="960"
+        MinHeight="620"
+        Topmost="True"
+        ShowInTaskbar="False"
+        PreviewKeyDown="Window_PreviewKeyDown">
+
+    <Border Background="#090B0E"
+            BorderBrush="#232A36"
+            BorderThickness="1"
+            CornerRadius="14"
+            Margin="12">
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" BlurRadius="26" ShadowDepth="6" Opacity="0.72"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Row 0: Top Spotlight Search Bar (Draggable Header) -->
+            <Border Grid.Row="0"
+                    Background="#12161E"
+                    BorderBrush="#232A36"
+                    BorderThickness="0,0,0,1"
+                    CornerRadius="14,14,0,0"
+                    Padding="16,12"
+                    MouseLeftButtonDown="HeaderBar_MouseLeftButtonDown">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Brand + Privacy Shield Indicator -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
+                        <Border Width="28" Height="28" CornerRadius="8" Background="#090B0E" BorderBrush="#38BDF8" BorderThickness="1.2" Margin="0,0,10,0">
+                            <Ellipse Width="10" Height="10" Fill="#38BDF8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="RecallLocal" Foreground="#F1F5F9" FontSize="14" FontWeight="Bold" FontFamily="Segoe UI"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
+                                <Ellipse x:Name="StatusDot" Width="7" Height="7" Fill="#10B981" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock x:Name="StatusLabel" Text="Offline Vault" Foreground="#10B981" FontSize="10.5" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Spotlight Search Input -->
+                    <Border Grid.Column="1"
+                            Background="#090B0E"
+                            BorderBrush="#232A36"
+                            BorderThickness="1"
+                            CornerRadius="9"
+                            Padding="12,0"
+                            Height="38"
+                            VerticalAlignment="Center"
+                            Margin="0,0,14,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="⌕" Foreground="#38BDF8" FontSize="16" VerticalAlignment="Center" Margin="0,0,8,1"/>
+
+                            <Grid Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock x:Name="SearchPlaceholder"
+                                           Text="Search screen memory (English / العربية), app, or window title..."
+                                           Foreground="#64748B"
+                                           FontSize="13.5"
+                                           VerticalAlignment="Center"
+                                           IsHitTestVisible="False"/>
+                                <TextBox x:Name="SearchTextBox"
+                                         Background="Transparent"
+                                         Foreground="#F1F5F9"
+                                         CaretBrush="#38BDF8"
+                                         BorderThickness="0"
+                                         FontSize="13.5"
+                                         FontFamily="Segoe UI"
+                                         VerticalContentAlignment="Center"
+                                         TextChanged="SearchTextBox_TextChanged"/>
+                            </Grid>
+
+                            <Border Grid.Column="2"
+                                    Background="#181E29"
+                                    BorderBrush="#232A36"
+                                    BorderThickness="1"
+                                    CornerRadius="6"
+                                    Padding="8,3"
+                                    VerticalAlignment="Center"
+                                    Margin="8,0,0,0">
+                                <TextBlock x:Name="MatchCounterText"
+                                           Text="0 moments found"
+                                           Foreground="#38BDF8"
+                                           FontSize="11.5"
+                                           FontWeight="SemiBold"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Quick Action Controls -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="CopyAllTextButton"
+                                Content="📋 Copy All Screen Text"
+                                Style="{StaticResource ObsidianButtonStyle}"
+                                Margin="0,0,8,0"
+                                Click="CopyAllTextButton_Click"
+                                ToolTip="Copy all OCR text from this historical frame"/>
+
+                        <Button x:Name="Nuke15Button"
+                                Content="🔥 Nuke Last 15m"
+                                Style="{StaticResource DangerButtonStyle}"
+                                Margin="0,0,8,0"
+                                Click="Nuke15Button_Click"
+                                ToolTip="Immediately delete all snapshots from the last 15 minutes"/>
+
+                        <Button x:Name="PauseToggleButton"
+                                Content="⏸ Pause"
+                                Style="{StaticResource ObsidianButtonStyle}"
+                                Margin="0,0,8,0"
+                                Click="PauseToggleButton_Click"
+                                ToolTip="Pause or resume background screen capture"/>
+
+                        <Button x:Name="SettingsButton"
+                                Content="⚙"
+                                Style="{StaticResource ObsidianButtonStyle}"
+                                Padding="10,6"
+                                Margin="0,0,8,0"
+                                Click="SettingsButton_Click"
+                                ToolTip="Open RecallLocal Settings"/>
+
+                        <Button x:Name="CloseButton"
+                                Content="✕"
+                                Style="{StaticResource ObsidianButtonStyle}"
+                                Padding="10,6"
+                                Click="CloseButton_Click"
+                                ToolTip="Dismiss Time-Machine (Esc)"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Row 1: App Filter Pills & Date Filter Strip -->
+            <Border Grid.Row="1"
+                    Background="#0D1117"
+                    BorderBrush="#232A36"
+                    BorderThickness="0,0,0,1"
+                    Padding="16,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                        <StackPanel x:Name="AppFilterPillsPanel" Orientation="Horizontal" VerticalAlignment="Center"/>
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                        <Button x:Name="DateAllButton" Content="All Dates" Style="{StaticResource ObsidianButtonStyle}" Padding="10,4" FontSize="11.5" Margin="0,0,6,0" Click="DateFilter_Click" Tag="ALL"/>
+                        <Button x:Name="DateTodayButton" Content="Today" Style="{StaticResource ObsidianButtonStyle}" Padding="10,4" FontSize="11.5" Margin="0,0,6,0" Click="DateFilter_Click" Tag="TODAY"/>
+                        <Button x:Name="DateYesterdayButton" Content="Yesterday" Style="{StaticResource ObsidianButtonStyle}" Padding="10,4" FontSize="11.5" Click="DateFilter_Click" Tag="YESTERDAY"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Row 2: Main Historical Viewport + OCR Bounding-Box Highlight Canvas -->
+            <Grid Grid.Row="2" Background="#090B0E" Margin="16,12,16,8">
+                <Border Background="#0C0F14"
+                        BorderBrush="#232A36"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        ClipToBounds="True">
+                    <Grid x:Name="ViewportHost" SizeChanged="ViewportHost_SizeChanged">
+                        <Image x:Name="ScreenshotImage"
+                               Stretch="Uniform"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+
+                        <!-- Transparent overlay for glowing #F59E0B OCR bounding boxes & click-to-copy -->
+                        <Canvas x:Name="HighlightCanvas" Background="Transparent"/>
+
+                        <!-- Empty State Card -->
+                        <StackPanel x:Name="EmptyStatePanel"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Visibility="Collapsed">
+                            <TextBlock Text="No matching moments in your local vault"
+                                       Foreground="#F1F5F9"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="EmptyStateSubtext"
+                                       Text="Try clearing your search filter or press Capture Snapshot Now from the system tray."
+                                       Foreground="#64748B"
+                                       FontSize="12.5"
+                                       Margin="0,6,0,0"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Floating Toast Notification -->
+                        <Border x:Name="ToastBanner"
+                                Background="#12161E"
+                                BorderBrush="#10B981"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="14,8"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0,0,0,16"
+                                Visibility="Collapsed">
+                            <TextBlock x:Name="ToastText"
+                                       Text="Copied to clipboard"
+                                       Foreground="#10B981"
+                                       FontSize="12.5"
+                                       FontWeight="SemiBold"/>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Row 3: Bottom Visual Timeline Scrubber & Timestamp Ticks -->
+            <Border Grid.Row="3"
+                    Background="#12161E"
+                    BorderBrush="#232A36"
+                    BorderThickness="0,1,0,0"
+                    CornerRadius="0,0,14,14"
+                    Padding="18,12,18,14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Metadata Header for Active Frame -->
+                    <Grid Grid.Row="0" Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Background="#181E29" BorderBrush="#38BDF8" BorderThickness="1" CornerRadius="6" Padding="8,3" Margin="0,0,10,0">
+                                <TextBlock x:Name="FrameTimeText" Text="--:--:-- --" Foreground="#38BDF8" FontFamily="Consolas" FontSize="12.5" FontWeight="Bold"/>
+                            </Border>
+                            <TextBlock x:Name="FrameDateText" Text="---" Foreground="#94A3B8" FontSize="12" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Background="#181E29" BorderBrush="#232A36" BorderThickness="1" CornerRadius="6" Padding="8,3" Margin="0,0,10,0">
+                                <TextBlock x:Name="FrameAppText" Text="App" Foreground="#F1F5F9" FontSize="12" FontWeight="SemiBold"/>
+                            </Border>
+                        </StackPanel>
+
+                        <TextBlock Grid.Column="1"
+                                   x:Name="FrameTitleText"
+                                   Text="Window title will appear here"
+                                   Foreground="#94A3B8"
+                                   FontSize="12.5"
+                                   TextTrimming="CharacterEllipsis"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,12,0"/>
+
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock x:Name="FrameMatchHintText"
+                                       Text="Click any highlighted word to copy  •  ← / → to scrub"
+                                       Foreground="#64748B"
+                                       FontSize="11.5"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,12,0"/>
+                            <TextBlock x:Name="FrameIndexText"
+                                       Text="0 / 0"
+                                       Foreground="#F1F5F9"
+                                       FontFamily="Consolas"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Smooth Timeline Slider -->
+                    <Slider Grid.Row="1"
+                            x:Name="TimelineSlider"
+                            Style="{StaticResource TimelineSliderStyle}"
+                            Minimum="0"
+                            Maximum="0"
+                            Value="0"
+                            IsSnapToTickEnabled="True"
+                            TickFrequency="1"
+                            ValueChanged="TimelineSlider_ValueChanged"
+                            Margin="0,2,0,8"/>
+
+                    <!-- Clickable Visual Timeline Ticks -->
+                    <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                        <StackPanel x:Name="TimelineTicksPanel" Orientation="Horizontal"/>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
