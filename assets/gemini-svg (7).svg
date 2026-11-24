@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320">
+  <defs>
+    <style>
+      .playhead { animation: scrub 7s ease-in-out infinite; }
+      @keyframes scrub {
+        0%, 100% { transform: translateX(0px); }
+        50% { transform: translateX(620px); }
+      }
+    </style>
+  </defs>
+
+  <rect width="1200" height="320" rx="16" fill="#090B0E" stroke="#232A36" stroke-width="2" />
+
+  
+  <rect x="2" y="2" width="1196" height="52" rx="14" fill="#111620" />
+  <text x="26" y="33" fill="#38BDF8" font-family="Consolas, monospace" font-size="14" font-weight="800">⏪ RECALLLOCAL TIME-MACHINE</text>
+  <rect x="310" y="12" width="460" height="30" rx="8" fill="#090B0E" stroke="#38BDF8" stroke-opacity="0.5" />
+  <text x="328" y="31" fill="#E2E8F0" font-family="Consolas, monospace" font-size="12">🔍 "invoice" OR "فاتورة"  —  8 exact moments found (4ms)</text>
+  <rect x="810" y="12" width="175" height="30" rx="8" fill="#064E3B" stroke="#10B981" />
+  <text x="897" y="31" text-anchor="middle" fill="#34D399" font-family="Consolas, monospace" font-size="11" font-weight="700">🛡️ PRIVACY GUARD ON</text>
+  <rect x="1000" y="12" width="174" height="30" rx="8" fill="#450A0A" stroke="#EF4444" />
+  <text x="1087" y="31" text-anchor="middle" fill="#FCA5A5" font-family="Consolas, monospace" font-size="11" font-weight="700">🔥 NUKE LAST 15m</text>
+
+  
+  <g transform="translate(26, 74)" font-family="Consolas, monospace">
+    <rect x="0" y="0" width="366" height="148" rx="12" fill="#111620" stroke="#232A36" />
+    <text x="18" y="28" fill="#94A3B8" font-size="11">10:12 AM • Chrome • GitHub Actions</text>
+    <text x="18" y="64" fill="#E2E8F0" font-size="12">Build failed: IndentationError:254</text>
+    <text x="18" y="96" fill="#64748B" font-size="11">OCR Indexed: 142 words (EN)</text>
+    <text x="18" y="128" fill="#38BDF8" font-size="11">Size: 58 KB JPEG (Diff-Filtered)</text>
+
+    <rect x="390" y="0" width="366" height="148" rx="12" fill="#121A26" stroke="#F59E0B" stroke-width="2" />
+    <text x="408" y="28" fill="#FBBF24" font-size="11" font-weight="700">★ 10:28 AM • Edge • Billing Portal (MATCH)</text>
+    <rect x="406" y="46" width="218" height="26" rx="4" fill="#F59E0B" fill-opacity="0.22" stroke="#F59E0B" />
+    <text x="414" y="64" fill="#FEF08A" font-size="12" font-weight="700">فاتورة رقم #INV-2026-884</text>
+    <text x="408" y="98" fill="#34D399" font-size="11">✓ Click highlighted text to copy</text>
+    <text x="408" y="128" fill="#94A3B8" font-size="11">OCR Engine: Windows.Media.Ocr (AR+EN)</text>
+
+    <rect x="780" y="0" width="366" height="148" rx="12" fill="#111620" stroke="#10B981" stroke-dasharray="5 4" />
+    <text x="798" y="28" fill="#34D399" font-size="11" font-weight="700">10:35 AM • InPrivate Window Detected</text>
+    <text x="798" y="68" fill="#A7F3D0" font-size="13" font-weight="700">🛡️ AUTO-PAUSED BY PRIVACY GUARD</text>
+    <text x="798" y="98" fill="#64748B" font-size="11">Zero frames captured for Incognito /</text>
+    <text x="798" y="118" fill="#64748B" font-size="11">Bitwarden / 1Password / KeePass</text>
+  </g>
+
+  
+  <g transform="translate(26, 250)">
+    <rect x="0" y="14" width="1146" height="10" rx="5" fill="#161D29" />
+    <rect x="120" y="14" width="4" height="10" fill="#38BDF8" />
+    <rect x="340" y="14" width="4" height="10" fill="#38BDF8" />
+    <rect x="570" y="14" width="6" height="10" fill="#F59E0B" />
+    <rect x="890" y="14" width="4" height="10" fill="#10B981" />
+    <g class="playhead">
+      <rect x="220" y="4" width="18" height="30" rx="5" fill="#38BDF8" />
+    </g>
+    <text x="0" y="52" fill="#64748B" font-family="Consolas, monospace" font-size="11">← / → Scrub Frames   │   Ctrl+Shift+R Summon Anywhere   │   100% Local Vault (%LocalAppData%\RecallLocal)</text>
+  </g>
+</svg>
